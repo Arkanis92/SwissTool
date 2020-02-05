@@ -6,10 +6,15 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 
 import com.example.swisstool.R;
+import com.example.swisstool.model.Animal;
 import com.example.swisstool.views.AlphabetFragment;
 import com.example.swisstool.views.HomeFragment;
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.HomeFragmentInteraction {
+public class MainActivity extends AppCompatActivity implements
+        HomeFragment.HomeFragmentInteraction, AnimalFragment.AnimalInteraction,
+        CreateAnimalFragment.CreateAnimalInteraction {
+
+    private AnimalFragment animalFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,19 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
 
     }
 
+    @Override
+    public void loadAnimalHouse() {
+        animalFragment = new AnimalFragment();
+        animalFragment.setListener(this);
+        loadFragmentWithBackStack(animalFragment, "AnimalFragment");
+    }
+
+    @Override
+    public void createNewAnimal() {
+        loadFragmentWithBackStack(new CreateAnimalFragment(this), "CreateAnimalFragment");
+    }
+
+
     private void loadFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
@@ -50,5 +68,17 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
                 .add(R.id.frame1, fragment)
                 .addToBackStack(fragName)
                 .commit();
+    }
+
+    @Override
+    public void newAnimal(Animal animal) {
+        animalFragment.newAnimalAdded(animal);
+        onBackPressed();
+    }
+
+    @Override
+    public void newAnimal(Bundle animalBundle) {
+        Animal newAnimal = animalBundle.getParcelable("ANIMAL");
+        newAnimal(newAnimal);
     }
 }

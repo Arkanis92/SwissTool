@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.swisstool.R;
 import com.example.swisstool.adapter.AnimalAdapter;
+import com.example.swisstool.model.Animal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
@@ -26,6 +27,7 @@ public class AnimalFragment extends Fragment {
     private RecyclerView rvAnimals;
     private FloatingActionButton fabAddNewAnimal;
     private AnimalAdapter animalAdapter;
+    private AnimalInteraction listener;
 
     public AnimalFragment() {
         // Required empty public constructor
@@ -50,8 +52,21 @@ public class AnimalFragment extends Fragment {
         fabAddNewAnimal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                listener.createNewAnimal();
                 Toast.makeText(view.getContext(), "ADD NEW ANIMAL", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    void setListener(AnimalInteraction listener) {
+        this.listener = listener;
+    }
+
+    void newAnimalAdded(Animal animal) {
+        animalAdapter.addNewAnimal(animal);
+    }
+
+    interface AnimalInteraction {
+        void createNewAnimal();
     }
 }

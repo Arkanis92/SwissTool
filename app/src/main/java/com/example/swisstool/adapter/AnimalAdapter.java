@@ -11,6 +11,7 @@ import com.example.swisstool.R;
 import com.example.swisstool.model.Animal;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,12 +20,15 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.AnimalView
     private List<Animal> animalList;
 
     public AnimalAdapter() {
-        animalList = Arrays.asList(
-                new Animal("Johny"),
-                new Animal("Zabomafoo"),
-                new Animal("Clifford"),
-                new Animal("Courage"),
-                new Animal("Garfield")
+        animalList = new ArrayList<>();
+        animalList.addAll(
+                Arrays.asList(
+                        new Animal("Johny"),
+                        new Animal("Zabomafoo"),
+                        new Animal("Clifford"),
+                        new Animal("Courage", "Scared of everything.", 7),
+                        new Animal("Garfield", "Love to eat", 2)
+                )
         );
     }
 
@@ -41,6 +45,8 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.AnimalView
     public void onBindViewHolder(@NonNull AnimalViewHolder holder, int position) {
         Animal animal = animalList.get(position);
         holder.tvAnimalName.setText(animal.getName());
+        holder.tvAnimalBio.setText(animal.getBio());
+        holder.tvAnimalAge.setText(String.valueOf(animal.getAge()));
     }
 
     @Override
@@ -54,11 +60,13 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.AnimalView
     }
 
     class AnimalViewHolder extends RecyclerView.ViewHolder {
-        MaterialTextView tvAnimalName;
+        MaterialTextView tvAnimalName, tvAnimalBio, tvAnimalAge;
 
         AnimalViewHolder(@NonNull View itemView) {
             super(itemView);
             tvAnimalName = itemView.findViewById(R.id.tvAnimalName);
+            tvAnimalBio = itemView.findViewById(R.id.tvAnimalBio);
+            tvAnimalAge = itemView.findViewById(R.id.tvAnimalAge);
         }
     }
 }

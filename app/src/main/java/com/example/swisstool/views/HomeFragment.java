@@ -80,6 +80,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.HomeAdapterInt
                 listener.loadBirthstones();
                 break;
             case ANIMAL_HOUSE:
+                listener.loadAnimalHouse();
                 break;
         }
     }
